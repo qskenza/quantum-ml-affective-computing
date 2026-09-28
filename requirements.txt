@@ -24,7 +24,7 @@ qiskit-machine-learning>=0.7
 qiskit-algorithms>=0.3        # COBYLA, SPSA, L-BFGS-B optimizers for VQC
 
 # ── Quantum computing — PennyLane path (hybrid CNN-QNN, notebook 09) ─────────
-pennylane>=0.35
+pennylane>=0.35               # PQC layer in the hybrid model (TorchLayer)
 
 # ── Notebooks ─────────────────────────────────────────────────────────────────
 jupyter>=1.0

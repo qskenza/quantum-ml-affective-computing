@@ -1,32 +1,58 @@
-# Applied-Research
+# Quantum Machine Learning for Physiological Stress Classification
 
-**Quantum Machine Learning for Physiological Stress Classification: A Comparative Study of QSVM and VQC on WESAD**
+**A Comparative Study of QSVM and VQC on WESAD & DREAMER**
 
-Authors: Kenza Qribis, Lina Harcharras
+> 🔬 **Research in progress:** a manuscript based on this work is in preparation. Results and code may change before publication.
 
-## Overview
+> © 2026 Kenza Qribis and Lina Harcharras. All rights reserved. This repository contains unpublished research. Please do not reuse, reproduce, or cite the code or results without the authors' permission until publication.
 
-This project benchmarks classical machine learning, a 1D-CNN, and quantum/hybrid-quantum
-models (QSVM, VQC, and a hybrid CNN-QNN) on physiological-signal stress and affect
-classification, using two public datasets: **WESAD** (chest/wrist wearable signals, 15
-subjects) and **DREAMER** (EEG/ECG, self-reported valence/arousal).
+A comparative study of quantum, hybrid, and classical machine learning models for detecting stress and emotional arousal from physiological signals (ECG, EDA, respiration, EEG). The central question is whether quantum models offer any advantage over classical baselines under realistic, **subject-independent** evaluation.
 
-**Research question:** How do QSVM and VQC compare against classical models (Logistic
-Regression, SVM, Random Forest) and a CNN for physiological stress classification, under
-subject-independent (Leave-One-Subject-Out, LOSO) evaluation?
+## Research questions
+
+- How do **Quantum Support Vector Machines (QSVM)** and **Variational Quantum Classifiers (VQC)** compare with classical models for physiological stress classification?
+- Can a **hybrid classical–quantum neural network** close the gap with deep learning?
+- Do models **generalize across datasets** (trained on one, tested on the other)?
 
 **Tasks:**
 - WESAD binary — baseline vs. stress
 - WESAD 3-class — baseline vs. stress vs. amusement
 - DREAMER binary — arousal, EEG features only
 
-**Evaluation protocol:** LOSO cross-validation (one fold per subject).
+## Datasets
+
+| Dataset | Signals | Participants | Task |
+|---|---|---|---|
+| [WESAD](https://ubi29.informatik.uni-siegen.de/usi/data_wesad.html) | Chest ECG, EDA, respiration, temperature, accelerometer | 15 | Baseline vs stress (binary), plus amusement (3-class) |
+| [DREAMER](https://zenodo.org/records/546113) | 14-channel EEG, ECG | 23 | Low vs high arousal (binary) |
+
+The datasets are not included in this repository. Download them from their official sources (see [Dataset setup](#dataset-setup) below for placement instructions).
+
+## Methodology
+
+**Evaluation:** Leave-One-Subject-Out (LOSO) cross-validation. Every model is tested on a person it has never seen, which reflects real-world use far better than random splits.
+
+**No data leakage:** Scaling, imputation, and PCA are fitted inside each training fold only.
+
+**Fair comparison:** Quantum kernel estimation is expensive to simulate, so classical and quantum models are trained on identical stratified subsamples per fold.
+
+**Models compared:**
+
+| Family | Models |
+|---|---|
+| Classical | Logistic Regression, SVM (RBF), Random Forest |
+| Deep learning | 1D-CNN on raw signals |
+| Quantum kernel | QSVM with ZZ and Pauli feature maps (grid over entanglement, repetitions, PCA size) |
+| Variational quantum | VQC with RealAmplitudes and EfficientSU2 ansätze, COBYLA and SPSA optimizers |
+| Hybrid | Classical neural front-end + parameterized quantum circuit, trained end-to-end |
+
+**Features:** Hand-crafted physiological features (HRV metrics such as RMSSD and SDNN, EDA, respiration), EEG band power, and frontal asymmetry (DASM/RASM), reduced with PCA before quantum encoding.
 
 ## Repository structure
 
 ```
 Applied-Research/
-├── data/                      # not included — see "Datasets" below
+├── data/                      # not included — see "Dataset setup" below
 │   ├── WESAD/
 │   └── DREAMER/DREAMER.mat
 ├── notebooks/
@@ -48,7 +74,7 @@ Applied-Research/
 └── requirements.txt
 ```
 
-## Datasets
+## Dataset setup
 
 Neither dataset is redistributed in this repo (license terms require downloading
 from the original source). Download and place them as follows before running the
@@ -79,6 +105,10 @@ pip install -r requirements.txt
 Tested with Python 3.10-3.11. `numpy` is pinned below 2.0 for compatibility with
 `qiskit-machine-learning` 0.7.x.
 
+## Tech stack
+
+Python, Qiskit, Qiskit Machine Learning, PennyLane, PyTorch, scikit-learn, NeuroKit2, pandas, NumPy, Matplotlib, seaborn.
+
 ## Running the pipeline
 
 The notebooks are numbered and meant to be run in order — later notebooks load
@@ -100,6 +130,8 @@ artifacts (features, pickled windows, JSON metadata) written by earlier ones to
 8. **10** — Cross-dataset validation (train on one dataset, test on the other).
 9. **11** — Aggregates all per-model results into summary tables and comparison plots.
 
+Quantum experiments run on a classical simulator, and some take several hours.
+
 ## Results
 
 Per-fold and summary metrics for every model/task are written to
@@ -116,3 +148,7 @@ Per-fold and summary metrics for every model/task are written to
   default), not real quantum hardware — no hardware noise is modeled.
 - Qubit counts are small (3-6), constraining the quantum models to PCA-reduced
   inputs rather than the full feature set used by the classical/CNN models.
+
+## Authors
+
+Kenza Qribis and Lina Harcharras, Al Akhawayn University.
