@@ -1,23 +1,30 @@
 # ─────────────────────────────────────────────────────────────────────────────
-# Quantum ML for Physiological Stress Classification — WESAD
+# Quantum ML for Physiological Stress Classification — WESAD & DREAMER
 # requirements.txt
 # Install: pip install -r requirements.txt
+# Tested with Python 3.10–3.11
 # ─────────────────────────────────────────────────────────────────────────────
 
 # ── Core scientific stack ─────────────────────────────────────────────────────
-numpy>=1.24,<2.0
+numpy>=1.24,<2.0              # pinned <2.0: qiskit-machine-learning 0.7.x is not numpy-2.0 compatible
 pandas>=2.0
 scipy>=1.11
 matplotlib>=3.7
 seaborn>=0.13
 
-# ── Machine learning (classical baselines) ────────────────────────────────────
+# ── Machine learning (classical baselines, notebooks 05, 10) ─────────────────
 scikit-learn>=1.3
 
-# ── Quantum computing ─────────────────────────────────────────────────────────
+# ── Deep learning (CNN baseline + hybrid CNN-QNN, notebooks 06, 09) ──────────
+torch>=2.1
+
+# ── Quantum computing — Qiskit path (QSVM + VQC, notebooks 07, 08, 10) ───────
 qiskit>=1.0
 qiskit-machine-learning>=0.7
 qiskit-algorithms>=0.3        # COBYLA, SPSA, L-BFGS-B optimizers for VQC
+
+# ── Quantum computing — PennyLane path (hybrid CNN-QNN, notebook 09) ─────────
+pennylane>=0.35
 
 # ── Notebooks ─────────────────────────────────────────────────────────────────
 jupyter>=1.0
@@ -26,6 +33,6 @@ ipykernel>=6.0
 ipywidgets>=8.0               # progress bars inside notebooks
 
 # ── Utilities ─────────────────────────────────────────────────────────────────
-tqdm>=4.66                    # progress bars in scripts
+tqdm>=4.66                    # progress bars in scripts and notebooks
 joblib>=1.3                   # parallel LOSO fold execution
 neurokit2>=0.2                # ECG/HRV feature extraction (RMSSD, pNN50, etc.)
