@@ -2,6 +2,8 @@
 
 > 🔬 **Research in progress:** a manuscript based on this work is in preparation. Results and code may change before publication.
 
+> © 2026 Kenza Qribis and Lina Harcharras. All rights reserved. This repository contains unpublished research. Please do not reuse, reproduce, or cite the code or results without the authors' permission until publication.
+
 A comparative study of quantum, hybrid, and classical machine learning models for detecting stress and emotional arousal from physiological signals (ECG, EDA, respiration, EEG). The central question is whether quantum models offer any advantage over classical baselines under realistic, **subject-independent** evaluation.
 
 ## Research questions
