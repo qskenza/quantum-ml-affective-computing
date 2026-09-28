@@ -76,4 +76,4 @@ Set `WESAD_PATH` and `DREAMER_PATH` in each notebook's configuration cell, then 
 
 ## Authors
 
-Kenza Qribis and Lina, Al Akhawayn University.
+Kenza Qribis and Lina Harcharras, Al Akhawayn University.
