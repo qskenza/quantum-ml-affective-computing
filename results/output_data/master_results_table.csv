@@ -1,15 +1,15 @@
 category,model,task,f1_mean,f1_std,accuracy_mean,train_time_s
-Classical,Logistic Regression,DREAMER_binary_EEG,0.4695,0.1435,0.4952,0.049
-Classical,Random Forest,DREAMER_binary_EEG,0.4722,0.1275,0.5121,0.2971
-Classical,SVM (RBF),DREAMER_binary_EEG,0.4016,0.1135,0.5072,0.0238
-Classical,Logistic Regression,WESAD_3class,0.5856,0.1779,0.646,0.0218
-Classical,Random Forest,WESAD_3class,0.6344,0.1283,0.6995,0.3498
-Classical,SVM (RBF),WESAD_3class,0.5872,0.201,0.6399,0.0277
-Classical,Logistic Regression,WESAD_binary,0.8197,0.2101,0.8534,0.0078
-Classical,Random Forest,WESAD_binary,0.8769,0.1482,0.8943,0.2397
-Classical,SVM (RBF),WESAD_binary,0.8474,0.1983,0.8862,0.0099
-Deep Learning,1D-CNN,WESAD_3class_CNN,0.2328,0.002,0.5366,265.986
-Deep Learning,1D-CNN,WESAD_binary_CNN,0.391,0.0037,0.642,116.4973
+Classical,Logistic Regression,DREAMER_binary_EEG,0.4336,0.1138,0.4686,0.1084
+Classical,Random Forest,DREAMER_binary_EEG,0.4664,0.1411,0.5097,3.0992
+Classical,SVM (RBF),DREAMER_binary_EEG,0.4859,0.1097,0.5242,0.821
+Classical,Logistic Regression,WESAD_3class,0.5724,0.1748,0.6376,0.09
+Classical,Random Forest,WESAD_3class,0.6451,0.1353,0.7044,2.7323
+Classical,SVM (RBF),WESAD_3class,0.5206,0.1606,0.5983,0.8535
+Classical,Logistic Regression,WESAD_binary,0.821,0.1968,0.8543,0.5166
+Classical,Random Forest,WESAD_binary,0.8858,0.1406,0.9023,2.3759
+Classical,SVM (RBF),WESAD_binary,0.7882,0.2315,0.822,0.385
+Deep Learning,1D-CNN,WESAD_3class_CNN,0.7515,0.1574,0.8145,636.1747
+Deep Learning,1D-CNN,WESAD_binary_CNN,0.9285,0.1122,0.933,524.7267
 Quantum,QSVM (best: PauliFeatureMap_n6_r2_full_standard),DREAMER_binary_EEG_QSVM,0.4999,0.1299,0.5217,1.9196
 Quantum,QSVM (best: PauliFeatureMap_n3_r2_circular_robust),WESAD_3class_QSVM,0.3898,0.1739,0.423,1.606
 Quantum,QSVM (best: PauliFeatureMap_n3_r1_linear_robust),WESAD_binary_QSVM,0.6198,0.1954,0.6413,0.6547
