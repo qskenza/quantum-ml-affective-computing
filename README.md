@@ -34,7 +34,7 @@ The datasets are not included in this repository. Download them from their offic
 
 **No data leakage:** Scaling, imputation, and PCA are fitted inside each training fold only.
 
-**Fair comparison:** Quantum kernel estimation is expensive to simulate, so classical and quantum models are trained on identical stratified subsamples per fold.
+**Fair comparison:** Quantum kernel estimation is expensive to simulate, so the classical baselines in `05` are trained on identical stratified subsamples per fold as the quantum models. A separate full-data rerun (`05b`) checks how much this subsampling actually costs the classical models (see [Results](#results)).
 
 **Models compared:**
 
@@ -46,12 +46,12 @@ The datasets are not included in this repository. Download them from their offic
 | Variational quantum | VQC with RealAmplitudes and EfficientSU2 ansätze, COBYLA and SPSA optimizers |
 | Hybrid | Classical neural front-end + parameterized quantum circuit, trained end-to-end |
 
-**Features:** Hand-crafted physiological features (HRV metrics such as RMSSD and SDNN, EDA, respiration), EEG band power, and frontal asymmetry (DASM/RASM), reduced with PCA before quantum encoding.
+**Features:** Hand-crafted physiological features (HRV metrics such as RMSSD and SDNN, EDA, respiration), EEG band power, and frontal asymmetry (DASM/RASM), reduced with PCA before quantum encoding. The CNN and hybrid models instead learn directly from normalized raw signal windows.
 
 ## Repository structure
 
 ```
-Applied-Research/
+quantum-ml-affective-computing/
 ├── data/                      # not included — see "Dataset setup" below
 │   ├── WESAD/
 │   └── DREAMER/DREAMER.mat
@@ -61,18 +61,23 @@ Applied-Research/
 │   ├── 03_dreamer_exploration.ipynb
 │   ├── 04_dreamer_preprocessing.ipynb
 │   ├── 05_classical_baselines.ipynb
-│   ├── 06_cnn_baseline.ipynb
+│   ├── 05b_classical_baselines_full.ipynb
+│   ├── 06_cnn_baseline_PATCHED.ipynb
 │   ├── 07_qsvm_experiments.ipynb
 │   ├── 08_vqc_experiments-SPSA.ipynb
 │   ├── 08_vqc_experiments-cobyla.ipynb
 │   ├── 09_hybrid_cnn_qnn.ipynb
 │   ├── 10_cross_dataset.ipynb
-│   └── 11_results_analysis.ipynb
+│   ├── 11_results_analysis.ipynb
+│   └── 12_significance_testing.ipynb
 ├── results/
 │   ├── output_data/            # per-fold and summary CSVs, JSON metadata
 │   └── plots/
+├── related_work_and_limitations.md
 └── requirements.txt
 ```
+
+> Note: `06_cnn_baseline_PATCHED.ipynb` supersedes an earlier, buggy version of the CNN notebook (removed from this repo — see [Notes on the CNN baseline](#notes-on-the-cnn-baseline)).
 
 ## Dataset setup
 
@@ -117,37 +122,70 @@ artifacts (features, pickled windows, JSON metadata) written by earlier ones to
 
 1. **01-02** — WESAD exploration and preprocessing (windowing, feature extraction)
 2. **03-04** — DREAMER exploration and preprocessing
-3. **05** — Classical baselines (Logistic Regression, SVM, Random Forest) under LOSO.
-   Currently run on a stratified subsample (150 windows/class/fold) to keep the
-   comparison fair against the quantum models in `07`-`08`, which are constrained to
-   small inputs by simulator cost.
-4. **06** — 1D-CNN baseline, trained on the full (unsampled) dataset.
-5. **07** — QSVM experiments (ZZFeatureMap / PauliFeatureMap kernels).
-6. **08** — VQC experiments (RealAmplitudes / EfficientSU2 circuits), with separate
+3. **05** — Classical baselines (Logistic Regression, SVM, Random Forest) under LOSO,
+   trained on a stratified subsample (150 windows/class/fold) to keep the comparison
+   fair against the quantum models in `07`-`08`, which are constrained to small
+   inputs by simulator cost.
+4. **05b** — Reruns the same classical baselines on the *full* training fold (no
+   subsampling), as a sensitivity check and a fair comparison point against the
+   full-data CNN (`06`) and hybrid (`09`) models. Also writes a subsample-vs-full
+   comparison table.
+5. **06** — 1D-CNN baseline, trained on the full (unsampled) dataset. See
+   [Notes on the CNN baseline](#notes-on-the-cnn-baseline) below.
+6. **07** — QSVM experiments (ZZFeatureMap / PauliFeatureMap kernels).
+7. **08** — VQC experiments (RealAmplitudes / EfficientSU2 circuits), with separate
    notebooks for the SPSA and COBYLA optimizers.
-7. **09** — Hybrid CNN-QNN (classical front-end + PennyLane parameterized quantum
+8. **09** — Hybrid CNN-QNN (classical front-end + PennyLane parameterized quantum
    circuit back-end), trained on the full dataset.
-8. **10** — Cross-dataset validation (train on one dataset, test on the other).
-9. **11** — Aggregates all per-model results into summary tables and comparison plots.
+9. **10** — Cross-dataset validation (train on one dataset, test on the other).
+10. **11** — Aggregates all per-model results into a master summary table and
+    comparison plots.
+11. **12** — Paired statistical significance testing (Wilcoxon signed-rank +
+    paired t-test, Holm-Bonferroni corrected) across LOSO folds, for every pair
+    of models within each task.
 
-Quantum experiments run on a classical simulator, and some take several hours.
+Quantum experiments run on a classical simulator, and some take several hours. The CNN and hybrid notebooks are also slow on CPU (roughly 8-10 minutes/fold at 50 epochs) — expect a full WESAD run of either to take a few hours.
+
+## Notes on the CNN baseline
+
+The 1D-CNN initially performed far worse than every other model (F1≈0.39 binary,
+0.23 3-class) due to two bugs, both fixed in `06_cnn_baseline_PATCHED.ipynb`:
+
+- **Per-window normalization was destroying the discriminative signal.**
+  Z-scoring each 30s window independently erased absolute-level information
+  (mean heart rate, mean skin conductance level, mean temperature) that the
+  classical models' engineered features rely on. Fixed by normalizing once per
+  subject instead.
+- **The respiration bandpass filter (0.1–0.5 Hz at 700 Hz) was numerically
+  unstable.** `scipy.signal.butter` + `filtfilt` in transfer-function ("ba") form
+  produces `NaN` on a signal this long at this cutoff/sample-rate ratio, which
+  silently poisoned training from epoch 1. Fixed by switching to second-order-
+  sections form (`output='sos'` + `sosfiltfilt`).
+
+A learning-rate reduction (3e-3 → 3e-4) and gradient clipping were also added as
+general training-stability insurance.
+
+After the fix, the CNN became the **best-performing model on both WESAD tasks**
+(F1=0.93 binary, F1=0.75 3-class) — see `related_work_and_limitations.md` for how
+that compares to the literature, and `results/output_data/significance_tests.csv`
+for which differences are statistically significant.
 
 ## Results
 
 Per-fold and summary metrics for every model/task are written to
 `results/output_data/` (e.g. `classical_baselines_per_fold.csv`,
-`cnn_baseline_per_fold.csv`, `master_results_table.csv`). Plots are written to
-`results/plots/`.
+`classical_baselines_full_per_fold.csv`, `cnn_baseline_per_fold.csv`,
+`hybrid_cnn_qnn_per_fold.csv`, `master_results_table.csv`). Paired significance
+test results (Wilcoxon + t-test, Holm-Bonferroni corrected) are in
+`significance_tests.csv`. Plots are written to `results/plots/`.
 
-## Known limitations / reproducibility notes
+## Related work & limitations
 
-- Classical baselines in `05` are subsampled for comparability with the quantum
-  models; this makes them *not* directly comparable to the full-data CNN (`06`) and
-  hybrid (`09`) results without a separate full-data classical run.
-- Quantum models are run on classical simulators (Qiskit Statevector / PennyLane
-  default), not real quantum hardware — no hardware noise is modeled.
-- Qubit counts are small (3-6), constraining the quantum models to PCA-reduced
-  inputs rather than the full feature set used by the classical/CNN models.
+See [`related_work_and_limitations.md`](related_work_and_limitations.md) for a
+comparison against published WESAD/DREAMER and quantum-ML-for-physiological-signals
+results, and a full discussion of this project's limitations (simulator-only
+quantum execution, qubit-count-constrained inputs, statistical power, DREAMER
+underperformance across all models, and more).
 
 ## Authors
 
