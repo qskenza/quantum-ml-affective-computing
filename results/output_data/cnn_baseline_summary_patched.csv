@@ -1,3 +1,0 @@
-task,accuracy_mean,accuracy_std,precision_mean,recall_mean,f1_mean,f1_std,train_time_mean,test_time_mean,model
-WESAD_3class_CNN,0.8145,0.1389,0.7894,0.7853,0.7515,0.1574,636.1747,0.3242,1D-CNN
-WESAD_binary_CNN,0.933,0.1087,0.9461,0.936,0.9285,0.1122,524.7267,0.2214,1D-CNN
