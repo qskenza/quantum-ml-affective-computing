@@ -16,6 +16,6 @@ Quantum,QSVM (best: PauliFeatureMap_n3_r1_linear_robust),WESAD_binary_QSVM,0.619
 Quantum,VQC (best: EfficientSU2_n4_r1_circular),DREAMER_binary_EEG_VQC,0.4543,0.1303,0.5266,55.817
 Quantum,VQC (best: RealAmplitudes_n3_r1_circular),WESAD_3class_VQC,0.3079,0.0371,0.4353,25.2973
 Quantum,VQC (best: EfficientSU2_n4_r1_linear),WESAD_binary_VQC,0.5357,0.0752,0.5516,93.9853
-Hybrid Quantum,Hybrid CNN-QNN,DREAMER_binary_EEG_Hybrid,0.4258,0.1211,0.4662,8.1813
-Hybrid Quantum,Hybrid CNN-QNN,WESAD_3class_Hybrid,0.5716,0.185,0.6502,19.3253
-Hybrid Quantum,Hybrid CNN-QNN,WESAD_binary_Hybrid,0.8735,0.1737,0.9025,15.7887
+Hybrid Quantum,Hybrid CNN-QNN,DREAMER_binary_EEG_Hybrid,0.4173,0.1016,0.4517,6.4991
+Hybrid Quantum,Hybrid CNN-QNN,WESAD_3class_Hybrid,0.4871,0.1662,0.5712,20.0673
+Hybrid Quantum,Hybrid CNN-QNN,WESAD_binary_Hybrid,0.8614,0.1733,0.8911,26.478
