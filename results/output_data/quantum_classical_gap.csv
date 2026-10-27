@@ -1,4 +1,4 @@
 task,best_classical,best_classical_model,best_quantum,best_hybrid,cnn_f1,q_gap,hybrid_gap
-WESAD Binary,0.8858,Random Forest,0.6198,0.8614,0.9285,0.266,0.0244
-WESAD 3-Class,0.6451,Random Forest,0.3898,0.4871,0.7515,0.2553,0.158
-DREAMER Binary EEG,0.4859,SVM (RBF),0.4999,0.4173,N/A,-0.014,0.0686
+WESAD Binary,0.8858,Random Forest,0.6198,0.8595,0.9285,0.266,0.0263
+WESAD 3-Class,0.6451,Random Forest,0.3898,0.5507,0.7515,0.2553,0.0944
+DREAMER Binary EEG,0.4859,SVM (RBF),0.4999,0.4509,N/A,-0.014,0.035

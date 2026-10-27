@@ -1,0 +1,7 @@
+task,model,mean,std
+DREAMER_binary_EEG_Hybrid,Hybrid (classical ablation),0.4214,0.0137
+DREAMER_binary_EEG_Hybrid,Hybrid CNN-QNN,0.4509,0.0103
+WESAD_3class_Hybrid,Hybrid (classical ablation),0.5694,0.0088
+WESAD_3class_Hybrid,Hybrid CNN-QNN,0.5507,0.0508
+WESAD_binary_Hybrid,Hybrid (classical ablation),0.8554,0.0083
+WESAD_binary_Hybrid,Hybrid CNN-QNN,0.8595,0.0101
