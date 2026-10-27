@@ -1,4 +1,4 @@
 task,accuracy_mean,accuracy_std,precision_mean,recall_mean,f1_mean,f1_std,train_time_mean,model
-DREAMER_binary_EEG_Hybrid,0.4662,0.1305,0.4546,0.4658,0.4258,0.1211,8.1813,Hybrid CNN-QNN
-WESAD_3class_Hybrid,0.6502,0.1712,0.6283,0.6294,0.5716,0.185,19.3253,Hybrid CNN-QNN
-WESAD_binary_Hybrid,0.9025,0.1169,0.8928,0.8803,0.8735,0.1737,15.7887,Hybrid CNN-QNN
+DREAMER_binary_EEG_Hybrid,0.4517,0.0907,0.4706,0.4622,0.4173,0.1016,6.4991,Hybrid CNN-QNN
+WESAD_3class_Hybrid,0.5712,0.1963,0.5843,0.5248,0.4871,0.1662,20.0673,Hybrid CNN-QNN
+WESAD_binary_Hybrid,0.8911,0.1182,0.882,0.8691,0.8614,0.1733,26.478,Hybrid CNN-QNN

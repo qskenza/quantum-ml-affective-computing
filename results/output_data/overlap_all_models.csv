@@ -4,3 +4,4 @@ SVM (RBF),0.1246,0.0602
 Random Forest,0.0511,0.1145
 QSVM (ZZFeatureMap | n_qubits=3 | reps=2 | full | robust),0.2684,0.2229
 VQC-COBYLA (EfficientSU2 | n_qubits=3 | reps=1 | circular),0.0,0.512
+Hybrid CNN-QNN,0.131,0.1867
