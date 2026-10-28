@@ -11,7 +11,7 @@ A comparative study of quantum, hybrid, and classical machine learning models fo
 ## Research questions
 
 - How do **Quantum Support Vector Machines (QSVM)** and **Variational Quantum Classifiers (VQC)** compare with classical models for physiological stress classification?
-- Can a **hybrid classical–quantum neural network** close the gap with deep learning?
+- Can a **hybrid classical–quantum neural network** close the gap with deep learning, and does its quantum layer contribute anything beyond its classical layers (ablation)?
 - Do models **generalize across datasets** (trained on one, tested on the other)?
 
 **Tasks:**
@@ -44,9 +44,9 @@ The datasets are not included in this repository. Download them from their offic
 | Deep learning | 1D-CNN on raw signals |
 | Quantum kernel | QSVM with ZZ and Pauli feature maps (grid over entanglement, repetitions, PCA size) |
 | Variational quantum | VQC with RealAmplitudes and EfficientSU2 ansätze, COBYLA and SPSA optimizers |
-| Hybrid | Classical neural front-end + parameterized quantum circuit, trained end-to-end |
+| Hybrid | Classical neural front-end + parameterized quantum circuit, trained end-to-end (5 seeds), plus a classical ablation that replaces the circuit with a same-width classical layer |
 
-**Features:** Hand-crafted physiological features (HRV metrics such as RMSSD and SDNN, EDA, respiration), EEG band power, and frontal asymmetry (DASM/RASM), reduced with PCA before quantum encoding. The CNN and hybrid models instead learn directly from normalized raw signal windows.
+**Features:** Hand-crafted physiological features (HRV metrics such as RMSSD and SDNN, EDA, respiration), EEG band power, and frontal asymmetry (DASM/RASM), reduced with PCA before quantum encoding. The CNN instead learns directly from subject-normalized raw signal windows; the hybrid model takes the hand-crafted features without PCA and compresses them to 4 qubits with a learned layer.
 
 ## Repository structure
 
@@ -108,7 +108,14 @@ pip install -r requirements.txt
 ```
 
 Tested with Python 3.10-3.11. `numpy` is pinned below 2.0 for compatibility with
-`qiskit-machine-learning` 0.7.x.
+`qiskit-machine-learning` 0.7.x, and `pandas` below 3.0 to match the environment the
+results were produced with.
+
+**Windows:** if `pip` fails with an `OSError` mentioning a missing file deep inside
+`site-packages\jupyterlab`, Windows long-path support is disabled. Either enable it
+(PowerShell as administrator, then restart:
+`New-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem" -Name "LongPathsEnabled" -Value 1 -PropertyType DWORD -Force`)
+or, if you run the notebooks from VS Code, skip the `jupyter`/`notebook` packages.
 
 ## Tech stack
 
@@ -136,15 +143,25 @@ artifacts (features, pickled windows, JSON metadata) written by earlier ones to
 7. **08** — VQC experiments (RealAmplitudes / EfficientSU2 circuits), with separate
    notebooks for the SPSA and COBYLA optimizers.
 8. **09** — Hybrid CNN-QNN (classical front-end + PennyLane parameterized quantum
-   circuit back-end), trained on the full dataset.
+   circuit back-end), trained on the full dataset. Besides the single run
+   (`hybrid_cnn_qnn_per_fold.csv`), it trains the hybrid and a **classical
+   ablation** (circuit replaced by a `Linear(4→4)+Tanh` layer of the same width)
+   with 5 seeds each (`hybrid_multiseed_per_fold.csv`,
+   `hybrid_multiseed_summary.csv`). The 5-seed averages are the reported hybrid
+   results. See [Notes on the hybrid model](#notes-on-the-hybrid-model).
 9. **10** — Cross-dataset validation (train on one dataset, test on the other).
 10. **11** — Aggregates all per-model results into a master summary table and
-    comparison plots.
+    comparison plots (hybrid = 5-seed average per subject).
 11. **12** — Paired statistical significance testing (Wilcoxon signed-rank +
-    paired t-test, Holm-Bonferroni corrected) across LOSO folds, for every pair
-    of models within each task.
+    paired t-test, Holm-Bonferroni corrected) across LOSO folds: every pair of
+    full-data classical, CNN, hybrid and ablation models within each task
+    (`significance_tests.csv`), plus seven planned comparisons per task for the
+    quantum models — QSVM/VQC vs. Random Forest on the same subsample, QSVM vs.
+    the PCA-matched SVM, SPSA vs. COBYLA, hybrid vs. ablation, hybrid vs. QSVM
+    (`significance_tests_quantum.csv`). The best QSVM/VQC configuration per task is
+    selected on the same LOSO folds, which slightly favours the quantum models.
 
-Quantum experiments run on a classical simulator, and some take several hours. The CNN and hybrid notebooks are also slow on CPU (roughly 8-10 minutes/fold at 50 epochs) — expect a full WESAD run of either to take a few hours.
+Quantum experiments run on a classical simulator, and some take several hours. The CNN notebook is also slow on CPU (roughly 8-10 minutes/fold at 50 epochs) — expect a full WESAD run to take a few hours. The 5-seed hybrid + ablation run in `09` takes about 2.5 hours on a laptop CPU.
 
 ## Notes on the CNN baseline
 
@@ -170,14 +187,29 @@ After the fix, the CNN became the **best-performing model on both WESAD tasks**
 that compares to the literature, and `results/output_data/significance_tests.csv`
 for which differences are statistically significant.
 
+## Notes on the hybrid model
+
+An earlier version of `09` created the PennyLane `TorchLayer` once and reused it
+for every model, so the quantum weights were **not re-initialized between LOSO
+folds** (each fold started from weights trained on earlier folds, which included
+the current test subject). Each model now builds its own quantum layer, and every
+fold has its own fixed seed. The single-seed 3-class F1 also turned out to be very
+seed-sensitive (0.487–0.626 across seeds), which is why the reported hybrid
+results are 5-seed averages.
+
+The classical ablation matches the hybrid on every task (no significant
+difference), so the hybrid's performance comes from its classical layers rather
+than from the quantum circuit.
+
 ## Results
 
 Per-fold and summary metrics for every model/task are written to
 `results/output_data/` (e.g. `classical_baselines_per_fold.csv`,
 `classical_baselines_full_per_fold.csv`, `cnn_baseline_per_fold.csv`,
-`hybrid_cnn_qnn_per_fold.csv`, `master_results_table.csv`). Paired significance
-test results (Wilcoxon + t-test, Holm-Bonferroni corrected) are in
-`significance_tests.csv`. Plots are written to `results/plots/`.
+`hybrid_cnn_qnn_per_fold.csv`, `hybrid_multiseed_per_fold.csv`,
+`master_results_table.csv`). Paired significance test results (Wilcoxon + t-test,
+Holm-Bonferroni corrected) are in `significance_tests.csv` and
+`significance_tests_quantum.csv`. Plots are written to `results/plots/`.
 
 ## Related work & limitations
 
