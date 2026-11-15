@@ -1,4 +1,4 @@
 model,stress->amusement_rate,amusement->stress_rate
-Logistic Regression,0.1246,0.0482
-SVM (RBF),0.115,0.0904
-Random Forest,0.0703,0.1145
+Logistic Regression,0.1086,0.1205
+SVM (RBF),0.0543,0.1265
+Random Forest,0.0607,0.1386
