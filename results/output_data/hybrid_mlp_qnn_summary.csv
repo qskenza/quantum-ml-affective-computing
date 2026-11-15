@@ -1,0 +1,4 @@
+task,accuracy_mean,accuracy_std,precision_mean,recall_mean,f1_mean,f1_std,train_time_mean,model
+DREAMER_binary_EEG_Hybrid,0.4517,0.0907,0.4706,0.4622,0.4173,0.1016,6.4991,Hybrid MLP-QNN
+WESAD_3class_Hybrid,0.5712,0.1963,0.5843,0.5248,0.4871,0.1662,20.0673,Hybrid MLP-QNN
+WESAD_binary_Hybrid,0.8911,0.1182,0.882,0.8691,0.8614,0.1733,26.478,Hybrid MLP-QNN

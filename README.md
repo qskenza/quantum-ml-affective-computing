@@ -66,7 +66,7 @@ quantum-ml-affective-computing/
 │   ├── 07_qsvm_experiments.ipynb
 │   ├── 08_vqc_experiments-SPSA.ipynb
 │   ├── 08_vqc_experiments-cobyla.ipynb
-│   ├── 09_hybrid_cnn_qnn.ipynb
+│   ├── 09_hybrid_mlp_qnn.ipynb
 │   ├── 10_cross_dataset.ipynb
 │   ├── 11_results_analysis.ipynb
 │   └── 12_significance_testing.ipynb
@@ -142,9 +142,9 @@ artifacts (features, pickled windows, JSON metadata) written by earlier ones to
 6. **07** — QSVM experiments (ZZFeatureMap / PauliFeatureMap kernels).
 7. **08** — VQC experiments (RealAmplitudes / EfficientSU2 circuits), with separate
    notebooks for the SPSA and COBYLA optimizers.
-8. **09** — Hybrid CNN-QNN (classical front-end + PennyLane parameterized quantum
+8. **09** — Hybrid MLP-QNN (classical front-end + PennyLane parameterized quantum
    circuit back-end), trained on the full dataset. Besides the single run
-   (`hybrid_cnn_qnn_per_fold.csv`), it trains the hybrid and a **classical
+   (`hybrid_mlp_qnn_per_fold.csv`), it trains the hybrid and a **classical
    ablation** (circuit replaced by a `Linear(4→4)+Tanh` layer of the same width)
    with 5 seeds each (`hybrid_multiseed_per_fold.csv`,
    `hybrid_multiseed_summary.csv`). The 5-seed averages are the reported hybrid
@@ -206,7 +206,7 @@ than from the quantum circuit.
 Per-fold and summary metrics for every model/task are written to
 `results/output_data/` (e.g. `classical_baselines_per_fold.csv`,
 `classical_baselines_full_per_fold.csv`, `cnn_baseline_per_fold.csv`,
-`hybrid_cnn_qnn_per_fold.csv`, `hybrid_multiseed_per_fold.csv`,
+`hybrid_mlp_qnn_per_fold.csv`, `hybrid_multiseed_per_fold.csv`,
 `master_results_table.csv`). Paired significance test results (Wilcoxon + t-test,
 Holm-Bonferroni corrected) are in `significance_tests.csv` and
 `significance_tests_quantum.csv`. Plots are written to `results/plots/`.

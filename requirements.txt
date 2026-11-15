@@ -15,7 +15,7 @@ seaborn>=0.13
 # ── Machine learning (classical baselines, notebooks 05, 10) ─────────────────
 scikit-learn>=1.3
 
-# ── Deep learning (CNN baseline + hybrid CNN-QNN, notebooks 06, 09) ──────────
+# ── Deep learning (CNN baseline + hybrid MLP-QNN, notebooks 06, 09) ──────────
 torch>=2.1
 
 # ── Quantum computing — Qiskit path (QSVM + VQC, notebooks 07, 08, 10) ───────
@@ -23,7 +23,7 @@ qiskit>=1.0
 qiskit-machine-learning>=0.7
 qiskit-algorithms>=0.3        # COBYLA, SPSA, L-BFGS-B optimizers for VQC
 
-# ── Quantum computing — PennyLane path (hybrid CNN-QNN, notebook 09) ─────────
+# ── Quantum computing — PennyLane path (hybrid MLP-QNN, notebook 09) ─────────
 pennylane>=0.35               # PQC layer in the hybrid model (TorchLayer)
 
 # ── Notebooks ─────────────────────────────────────────────────────────────────
