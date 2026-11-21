@@ -1,21 +1,21 @@
 category,model,task,f1_mean,f1_std,accuracy_mean,train_time_s
-Classical,Logistic Regression,DREAMER_binary_EEG,0.4336,0.1138,0.4686,0.1084
-Classical,Random Forest,DREAMER_binary_EEG,0.4664,0.1411,0.5097,3.0992
-Classical,SVM (RBF),DREAMER_binary_EEG,0.4859,0.1097,0.5242,0.821
-Classical,Logistic Regression,WESAD_3class,0.5724,0.1748,0.6376,0.09
-Classical,Random Forest,WESAD_3class,0.6451,0.1353,0.7044,2.7323
-Classical,SVM (RBF),WESAD_3class,0.5206,0.1606,0.5983,0.8535
-Classical,Logistic Regression,WESAD_binary,0.821,0.1968,0.8543,0.5166
-Classical,Random Forest,WESAD_binary,0.8858,0.1406,0.9023,2.3759
-Classical,SVM (RBF),WESAD_binary,0.7882,0.2315,0.822,0.385
+Classical,Logistic Regression,DREAMER_binary_EEG,0.4422,0.1197,0.471,0.4393
+Classical,Random Forest,DREAMER_binary_EEG,0.4419,0.1426,0.4855,14.2469
+Classical,SVM (RBF),DREAMER_binary_EEG,0.4837,0.1261,0.5266,4.0184
+Classical,Logistic Regression,WESAD_3class,0.7863,0.1205,0.8318,0.3298
+Classical,Random Forest,WESAD_3class,0.7922,0.1802,0.8629,14.2571
+Classical,SVM (RBF),WESAD_3class,0.8122,0.126,0.8671,3.8854
+Classical,Logistic Regression,WESAD_binary,0.9713,0.0369,0.9736,1.3813
+Classical,Random Forest,WESAD_binary,0.9763,0.0363,0.978,12.1709
+Classical,SVM (RBF),WESAD_binary,0.975,0.0351,0.9768,1.7199
 Deep Learning,1D-CNN,WESAD_3class_CNN,0.7515,0.1574,0.8145,636.1747
 Deep Learning,1D-CNN,WESAD_binary_CNN,0.9285,0.1122,0.933,524.7267
-Quantum,QSVM (best: PauliFeatureMap_n6_r2_full_standard),DREAMER_binary_EEG_QSVM,0.4999,0.1299,0.5217,1.9196
-Quantum,QSVM (best: PauliFeatureMap_n3_r2_circular_robust),WESAD_3class_QSVM,0.3898,0.1739,0.423,1.606
-Quantum,QSVM (best: PauliFeatureMap_n3_r1_linear_robust),WESAD_binary_QSVM,0.6198,0.1954,0.6413,0.6547
-Quantum,VQC (best: EfficientSU2_n4_r1_circular),DREAMER_binary_EEG_VQC,0.4543,0.1303,0.5266,55.817
-Quantum,VQC (best: RealAmplitudes_n3_r1_circular),WESAD_3class_VQC,0.3079,0.0371,0.4353,25.2973
-Quantum,VQC (best: EfficientSU2_n4_r1_linear),WESAD_binary_VQC,0.5357,0.0752,0.5516,93.9853
-Hybrid Quantum,Hybrid MLP-QNN,DREAMER_binary_EEG_Hybrid,0.4509,0.0756,0.4942,19.4783
-Hybrid Quantum,Hybrid MLP-QNN,WESAD_3class_Hybrid,0.5507,0.1515,0.6282,45.1939
-Hybrid Quantum,Hybrid MLP-QNN,WESAD_binary_Hybrid,0.8595,0.1719,0.8886,36.8044
+Quantum,QSVM (best: PauliFeatureMap_n6_r2_linear_standard),DREAMER_binary_EEG_QSVM,0.4797,0.146,0.5145,7.4326
+Quantum,QSVM (best: PauliFeatureMap_n3_r1_circular_robust),WESAD_3class_QSVM,0.4487,0.109,0.4956,1.7927
+Quantum,QSVM (best: PauliFeatureMap_n4_r1_full_robust),WESAD_binary_QSVM,0.6399,0.0919,0.6561,5.2273
+Quantum,VQC (best: EfficientSU2_n6_r1_linear),DREAMER_binary_EEG_VQC,0.475,0.1366,0.5145,30.7783
+Quantum,VQC (best: EfficientSU2_n3_r1_linear),WESAD_3class_VQC,0.3317,0.0444,0.4691,26.484
+Quantum,VQC (best: RealAmplitudes_n3_r1_circular),WESAD_binary_VQC,0.5383,0.0638,0.5566,16.1787
+Hybrid Quantum,Hybrid MLP-QNN,DREAMER_binary_EEG_Hybrid,0.4407,0.0526,0.4894,11.9623
+Hybrid Quantum,Hybrid MLP-QNN,WESAD_3class_Hybrid,0.7982,0.1505,0.8557,27.8727
+Hybrid Quantum,Hybrid MLP-QNN,WESAD_binary_Hybrid,0.9722,0.0381,0.9741,24.6307
