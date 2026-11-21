@@ -1,0 +1,10 @@
+task,model_a,model_b,mean_a,mean_b,n_folds,mean_diff,ci90_low,ci90_high,p_tost,equivalent,verdict
+DREAMER_binary_EEG,QSVM (nested),SVM PCA-matched,0.47,0.4612,23,0.0088,-0.0515,0.069,0.1262,False,inconclusive
+DREAMER_binary_EEG,QSVM (nested),Random Forest (subsample),0.47,0.4419,23,0.0281,-0.0185,0.0748,0.2148,False,inconclusive
+DREAMER_binary_EEG,Hybrid MLP-QNN,Hybrid (classical ablation),0.4407,0.4238,23,0.0169,-0.0004,0.0342,0.0017,True,equivalent (within +/-0.05)
+WESAD_3class,QSVM (nested),SVM PCA-matched,0.4562,0.7826,15,-0.3265,-0.3842,-0.2688,1.0,False,different (CI outside +/-0.05)
+WESAD_3class,QSVM (nested),Random Forest (subsample),0.4562,0.7922,15,-0.336,-0.4042,-0.2678,1.0,False,different (CI outside +/-0.05)
+WESAD_3class,Hybrid MLP-QNN,Hybrid (classical ablation),0.7982,0.8105,15,-0.0123,-0.0286,0.004,0.0006,True,equivalent (within +/-0.05)
+WESAD_binary,QSVM (nested),SVM PCA-matched,0.5919,0.9539,15,-0.3619,-0.4104,-0.3135,1.0,False,different (CI outside +/-0.05)
+WESAD_binary,QSVM (nested),Random Forest (subsample),0.5919,0.9763,15,-0.3844,-0.4286,-0.3401,1.0,False,different (CI outside +/-0.05)
+WESAD_binary,Hybrid MLP-QNN,Hybrid (classical ablation),0.9722,0.9712,15,0.001,-0.002,0.0041,0.0,True,equivalent (within +/-0.05)
